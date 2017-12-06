@@ -1,9 +1,6 @@
 
 # coding: utf-8
 
-# In[286]:
-
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -12,10 +9,53 @@ from sklearn.neighbors import KNeighborsRegressor
 get_ipython().run_line_magic('matplotlib', 'inline')
 
 
-# In[287]:
-
-
-names = ['API','Surf_X','Surf_Y','Date_Drilling','Date_Completion','Date_Production','Lateral_Length','Depth_TVD_PPLS','Erosion_PPLS','Pressure_PPLS','TOC_PPLS','Vcarb_PPLS','Vsand_PPLS','Vclay_PPLS','PR_PPLS','YM_PPLS','RHOB_PPLS','Res_PPLS','GR_PPLS','DT_PPLS','DTs_PPLS','Temperature','Temp_Anomaly','S3Tect_PPLS','S3_contrast_PPLS','Heat_Flow','Zone','Nbr_Stages','Frac_Gradient','Proppant_Designed','Proppant_in_Formation','Avg_Breakdown_Pressure','Avg_Treating_Pressure','Max_Treating_pressure','Min_Treating_Pressure','Avg_Rate_Slurry','Max_Rate_Slurry','Min_Rate_Slurry','ShutInPressure_Fil','ShutInPressure_Initial','ISIP','Shot_Density','Shot_Total','Proppant_per_ft','Stage_Spacing','GasCum360','OilCum360']
+names = ['API', 
+         'Surf_X', 
+         'Surf_Y', 
+         'Date_Drilling', 
+         'Date_Completion', 
+         'Date_Production', 
+         'Lateral_Length', 
+         'Depth_TVD_PPLS', 
+         'Erosion_PPLS', 
+         'Pressure_PPLS', 
+         'TOC_PPLS', 
+         'Vcarb_PPLS', 
+         'Vsand_PPLS', 
+         'Vclay_PPLS', 
+         'PR_PPLS', 
+         'YM_PPLS', 
+         'RHOB_PPLS', 
+         'Res_PPLS', 
+         'GR_PPLS', 
+         'DT_PPLS', 
+         'DTs_PPLS', 
+         'Temperature', 
+         'Temp_Anomaly', 
+         'S3Tect_PPLS', 
+         'S3_contrast_PPLS', 
+         'Heat_Flow', 
+         'Zone', 
+         'Nbr_Stages', 
+         'Frac_Gradient', 
+         'Proppant_Designed', 
+         'Proppant_in_Formation', 
+         'Avg_Breakdown_Pressure', 
+         'Avg_Treating_Pressure', 
+         'Max_Treating_pressure', 
+         'Min_Treating_Pressure', 
+         'Avg_Rate_Slurry', 
+         'Max_Rate_Slurry', 
+         'Min_Rate_Slurry', 
+         'ShutInPressure_Fil', 
+         'ShutInPressure_Initial', 
+         'ISIP', 
+         'Shot_Density', 
+         'Shot_Total', 
+         'Proppant_per_ft', 
+         'Stage_Spacing', 
+         'GasCum360', 
+         'OilCum360']
 
 df_data = pd.read_csv('./TrainSample.csv', 
                         header = None, 
@@ -43,10 +83,6 @@ df_test = pd.read_csv('./TestSample.csv',
 
 df_test.head(5)
 
-
-# In[288]:
-
-
 ##Définition des labels
 
 y = {'GasCum360' : df_data['GasCum360'],
@@ -54,35 +90,19 @@ y = {'GasCum360' : df_data['GasCum360'],
 
 df_target = pd.DataFrame(y)
 
-
-# In[289]:
-
-
 cols_date = ['Date_Drilling','Date_Completion','Date_Production', 'GasCum360', 'OilCum360']
 
 df_data.drop(cols_date, 1, inplace=True)
 df_test.drop(cols_date, 1, inplace=True)
-
-
-# In[290]:
-
 
 cols_with_nan = ['Pressure_PPLS','Nbr_Stages','Frac_Gradient','Proppant_Designed','Proppant_in_Formation','Avg_Breakdown_Pressure','Avg_Treating_Pressure','Max_Treating_pressure','Min_Treating_Pressure','Avg_Rate_Slurry','Max_Rate_Slurry','Min_Rate_Slurry','ShutInPressure_Fil','ShutInPressure_Initial','ISIP','Shot_Density','Shot_Total','Proppant_per_ft','Stage_Spacing']
 
 df_data.drop(cols_with_nan, axis=1, inplace=True)
 df_test.drop(cols_with_nan, axis=1, inplace=True)
 
-
-# In[291]:
-
-
 from sklearn import cross_validation
 
 X_train, X_test, y_train, y_test = cross_validation.train_test_split(df_data, df_target, test_size=0.2, random_state=0)
-
-
-# In[292]:
-
 
 #x_testFixed = x_test.fillna(x_test.median())
 #x_trainFixed = x_train.fillna(x_train.median())
@@ -99,14 +119,6 @@ def correlation(data):
     )
     
 correlation(df_train)
-# In[293]:
-
-
-print(X_train.shape, y_train.shape)
-
-
-# In[294]:
-
 
 ## Fit regression model
 
@@ -117,10 +129,6 @@ regr_1.fit(X_train, y_train)
 
 y_predictDec = regr_1.predict(X_test)
 
-
-# In[295]:
-
-
 ## Metrics training
 
 from sklearn.metrics import mean_squared_error
@@ -128,20 +136,11 @@ from sklearn.metrics import mean_squared_error
 mean_squared_error(y_test, y_predictDec) 
 #mean_squared_error(y_test, y_predictAda)
 
-
-
-# In[296]:
-
-
 gascumpred = []
 oilcumpred = []
 
 gascumpred = [element[0] for element in y_predictFin]
 oilcumpred = [element[1] for element in y_predictFin]
-
-
-# In[297]:
-
 
 gascumpred_max = max(gascumpred)
 gascumpred_min = min(gascumpred)
@@ -149,41 +148,19 @@ gascumpred_min = min(gascumpred)
 oilcumpred_max = max(oilcumpred)
 oilcumpred_min = min(oilcumpred)
 
-
-# In[298]:
-
-
 GasCum360_inf = gascumpred - (gascumpred_max - gascumpred_min) / 4
 GasCum360_sup = gascumpred + (gascumpred_max - gascumpred_min) / 4
 
 OilCum360_inf = oilcumpred - (oilcumpred_max - oilcumpred_min) / 4
 OilCum360_sup = oilcumpred + (oilcumpred_max - oilcumpred_min) / 4
 
-
-# In[299]:
-
-
 print(GasCum360_inf[:10], GasCum360_sup[:10])
-
-
-# In[300]:
-
-
--57 < -36
-
-
-# In[301]:
-
 
 GasCum360_inf.tolist
 GasCum360_sup.tolist
 
 OilCum360_inf.tolist
 OilCum360_sup.tolist
-
-
-# In[302]:
-
 
 ## Output
 
@@ -212,10 +189,6 @@ output.head()
 
 output.to_csv('coche-julien-challenge-total.csv', index=False, sep= ';', decimal=',')
 
-
-# In[303]:
-
-
 """
 Rappport 1 :
 
@@ -237,10 +210,3 @@ Fin du formatage des données
 Debut mise en place de la cross_validation
 Debut mise en place des metrics
 """
-
-
-# In[304]:
-
-
-output_test.describe()
-

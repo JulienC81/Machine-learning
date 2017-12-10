@@ -9,10 +9,10 @@ from sklearn.neighbors import KNeighborsRegressor
 get_ipython().run_line_magic('matplotlib', 'inline')
 
 
-names = ['API', 
-         'Surf_X', 
-         'Surf_Y', 
-         'Date_Drilling', 
+names = ['API',
+         'Surf_X',
+         'Surf_Y',
+         'Date_Drilling',
          'Date_Completion', 
          'Date_Production', 
          'Lateral_Length', 
@@ -57,8 +57,8 @@ names = ['API',
          'GasCum360', 
          'OilCum360']
 
-df_data = pd.read_csv('./TrainSample.csv', 
-                        header = None, 
+df_data = pd.read_csv('./TrainSample.csv',
+                        header = None,
                         sep = ';',
                         decimal = ',',
                         names = names,
